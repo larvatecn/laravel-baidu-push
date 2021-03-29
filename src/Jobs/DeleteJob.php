@@ -73,9 +73,9 @@ class DeleteJob implements ShouldQueue
     public function handle()
     {
         try {
-            Http::contentType('text/plain')->post("http://data.zz.baidu.com/del?site={$this->site}&token={$this->token}", [
-                'body' => $this->baiduPush->url
-            ]);
+            Http::acceptJson()
+                ->withBody($this->baiduPush->url, 'text/plain')
+                ->post("http://data.zz.baidu.com/del?site={$this->site}&token={$this->token}");
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }

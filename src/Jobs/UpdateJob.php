@@ -72,9 +72,10 @@ class UpdateJob implements ShouldQueue
     public function handle()
     {
         try {
-            $response = Http::contentType('text/plain')->post("http://data.zz.baidu.com/update?site={$this->site}&token={$this->token}", [
-                'body' => $this->baiduPush->url
-            ]);
+
+            $response = Http::acceptJson()
+                ->withBody($this->baiduPush->url, 'text/plain')
+                ->post("http://data.zz.baidu.com/update?site={$this->site}&token={$this->token}");
             if (isset($response['error'])) {
                 $this->baiduPush->setFailure($response['error'] . ':' . $response['message']);
             } else {

@@ -72,18 +72,18 @@ class PushJob implements ShouldQueue
     {
         try {
             if ($this->baiduPush->type == BaiduPush::TYPE_SITE) {
-                $response = Http::contentType('text/plain')->post("http://data.zz.baidu.com/urls?site={$this->site}&token={$this->token}", [
-                    'body' => $this->baiduPush->url
-                ]);
+                $response = Http::acceptJson()
+                    ->withBody($this->baiduPush->url, 'text/plain')
+                    ->post("http://data.zz.baidu.com/urls?site={$this->site}&token={$this->token}");
                 if (isset($response['error'])) {
                     $this->baiduPush->setFailure($response['error'] . ':' . $response['message']);
                 } else {
                     $this->baiduPush->setSuccess();
                 }
             } else if ($this->baiduPush->type == BaiduPush::TYPE_DAILY) {
-                $response = Http::contentType('text/plain')->post("http://data.zz.baidu.com/urls?site={$this->site}&token={$this->token}&type=daily", [
-                    'body' => $this->baiduPush->url
-                ]);
+                $response = Http::acceptJson()
+                    ->withBody($this->baiduPush->url, 'text/plain')
+                    ->post("http://data.zz.baidu.com/urls?site={$this->site}&token={$this->token}&type=daily");
                 if (isset($response['error'])) {
                     $this->baiduPush->setFailure($response['error'] . ':' . $response['message']);
                 } else {
