@@ -3,7 +3,6 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\Baidu\Push;
@@ -23,13 +22,13 @@ trait HasBaiduPush
     protected static function bootHasBaiduPush(): void
     {
         static::created(function ($model) {
-            BaiduPush::push($model->link);
+            BaiduPush::push($model->url);
         });
         static::updated(function ($model) {
-            BaiduPush::update($model->link);
+            BaiduPush::update($model->url);
         });
         static::deleted(function ($model) {
-            BaiduPush::delete($model->link);
+            BaiduPush::delete($model->url);
         });
     }
 }
