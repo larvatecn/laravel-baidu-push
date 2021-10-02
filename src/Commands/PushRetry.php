@@ -23,7 +23,7 @@ class PushRetry extends Command
      *
      * @var string
      */
-    protected $signature = 'baidu:push-retry';
+    protected $signature = 'push:baidu-retry';
 
     /**
      * The console command description.

@@ -23,7 +23,7 @@ class Push extends Command
      *
      * @var string
      */
-    protected $signature = 'baidu:push';
+    protected $signature = 'push:baidu';
 
     /**
      * The console command description.
