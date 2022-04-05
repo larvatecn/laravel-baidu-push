@@ -15,6 +15,7 @@ use Larva\Baidu\Push\Models\BaiduPush;
 
 /**
  * 百度推送
+ *
  * @author Tongle Xu <xutongle@gmail.com>
  */
 class PushController extends AdminController

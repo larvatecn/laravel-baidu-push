@@ -5,19 +5,27 @@
   "type": "library",
   "license": "MIT",
   "require": {
+    "php": "^8.0.2",
     "ext-json": "*",
     "guzzlehttp/guzzle": "^6.5 || ^7.2",
-    "illuminate/bus": "^6.0 || ^7.0 || ^8.0",
-    "illuminate/events": "^6.0 || ^7.0 || ^8.0",
-    "illuminate/http": "^6.0 || ^7.0 || ^8.0",
-    "illuminate/queue": "^6.0 || ^7.0 || ^8.0",
-    "illuminate/database": "^6.0 || ^7.0 || ^8.0",
-    "illuminate/support": "^6.0 || ^7.0 || ^8.0"
+    "illuminate/bus": "^9.0",
+    "illuminate/events": "^9.0",
+    "illuminate/http": "^9.0",
+    "illuminate/queue": "^9.0",
+    "illuminate/database": "^9.0",
+    "illuminate/support": "^9.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.8"
   },
   "autoload": {
     "psr-4": {
       "Larva\\Baidu\\Push\\": "src"
     }
+  },
+  "scripts": {
+    "check-style": "vendor/bin/php-cs-fixer fix --using-cache=no --diff --config=.php-cs-fixer.php --dry-run --ansi",
+    "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.php --ansi"
   },
   "extra": {
     "branch-alias": {

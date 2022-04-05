@@ -14,7 +14,8 @@ use Larva\Baidu\Push\Jobs\PushJob;
 use Larva\Baidu\Push\Models\BaiduPush;
 
 /**
- * Class BatchRetry
+ * 批量重试
+ *
  * @author Tongle Xu <xutongle@gmail.com>
  */
 class BatchRetry extends BatchAction
