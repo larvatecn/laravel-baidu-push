@@ -7,6 +7,7 @@
 
 namespace Larva\Baidu\Push\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -21,9 +22,9 @@ use Illuminate\Support\Carbon;
  * @property bool $included 是否已经收录
  * @property Carbon|null $push_at 推送时间
  *
- * @property-read boolean $failure
- * @method static \Illuminate\Database\Eloquent\Builder|BaiduPush failure()
- * @method static \Illuminate\Database\Eloquent\Builder|BaiduPush pending()
+ * @property-read boolean $failure 是否失败
+ * @method static Builder failure()
+ * @method static Builder pending()
  *
  * @author Tongle Xu <xutongle@gmail.com>
  */
@@ -33,17 +34,26 @@ class BaiduPush extends Model
 
     public const TYPE_SITE = 'site';//普通推送
     public const TYPE_DAILY = 'daily';//快速收录
+    public const TYPES = [
+        self::TYPE_SITE => '普通收录',
+        self::TYPE_DAILY => '快速收录'
+    ];
 
     public const STATUS_PENDING = 0b0;//待推送
     public const STATUS_SUCCESS = 0b1;//正常
     public const STATUS_FAILURE = 0b10;//失败
+    public const STATUS_MAPS = [
+        self::STATUS_PENDING => '待推送',
+        self::STATUS_SUCCESS => '推送成功',
+        self::STATUS_FAILURE => '推送失败'
+    ];
 
     /**
      * 与模型关联的数据表。
      *
      * @var string
      */
-    protected $table = 'baidu_push';
+    protected $table = 'baidu_pushes';
 
     /**
      * 可以批量赋值的属性
@@ -60,7 +70,7 @@ class BaiduPush extends Model
      * @var array
      */
     protected $attributes = [
-        'status' => 0b0
+        'status' => self::STATUS_PENDING
     ];
 
     /**
@@ -77,10 +87,10 @@ class BaiduPush extends Model
     /**
      * 查询等待的推送
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
-    public function scopePending($query)
+    public function scopePending(Builder $query): Builder
     {
         return $query->where('status', '=', static::STATUS_PENDING);
     }
@@ -88,19 +98,19 @@ class BaiduPush extends Model
     /**
      * 查询失败的推送
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
-    public function scopeFailure($query)
+    public function scopeFailure(Builder $query): Builder
     {
         return $query->where('status', '=', static::STATUS_FAILURE);
     }
 
     /**
      * 是否已失败
-     * @return boolean
+     * @return bool
      */
-    public function getFailureAttribute()
+    public function getFailureAttribute(): bool
     {
         return $this->status == static::STATUS_FAILURE;
     }
@@ -125,7 +135,7 @@ class BaiduPush extends Model
     }
 
     /**
-     * 设置推送成功
+     * 设置为已收录
      * @return bool
      */
     public function setIncluded(): bool

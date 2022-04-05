@@ -57,7 +57,7 @@ class DeleteJob implements ShouldQueue
         $this->baiduPush = $baiduPush;
         if (function_exists('settings')) {
             $this->site = config('app.url');
-            $this->token = settings('system.baidu_site_token');
+            $this->token = settings('baidu.site_token');
         } else {
             $this->site = config('services.baidu.site');
             $this->token = config('services.baidu.site_token');

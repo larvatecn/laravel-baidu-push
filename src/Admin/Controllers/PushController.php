@@ -35,15 +35,8 @@ class PushController extends AdminController
         return Grid::make(new BaiduPush(), function (Grid $grid) {
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-                $filter->equal('type', '推送类型')->select([
-                    BaiduPush::TYPE_SITE => '普通推送',
-                    BaiduPush::TYPE_DAILY => '快速收录'
-                ]);
-                $filter->equal('status', '推送状态')->select([
-                    BaiduPush::STATUS_PENDING => '待推送',
-                    BaiduPush::STATUS_SUCCESS => '推送成功',
-                    BaiduPush::STATUS_FAILURE => '推送失败',
-                ]);
+                $filter->equal('type', '推送类型')->select(BaiduPush::TYPES);
+                $filter->equal('status', '推送状态')->select(BaiduPush::STATUS_MAPS);
                 //顶部筛选
                 $filter->scope('failure', '推送失败')->where('status', BaiduPush::STATUS_FAILURE);
                 $filter->scope('pending', '待推送')->where('status', BaiduPush::STATUS_PENDING);
@@ -52,16 +45,9 @@ class PushController extends AdminController
             $grid->model()->orderBy('id', 'desc');
 
             $grid->column('id', 'ID')->sortable();
-            $grid->column('type', '推送类型')->using([
-                BaiduPush::TYPE_SITE => '普通推送',
-                BaiduPush::TYPE_DAILY => '快速收录'
-            ]);
+            $grid->column('type', '推送类型')->using(BaiduPush::TYPES);
             $grid->column('url', 'Url')->link();
-            $grid->column('status', '状态')->using([
-                BaiduPush::STATUS_PENDING => '待推送',
-                BaiduPush::STATUS_SUCCESS => '推送成功',
-                BaiduPush::STATUS_FAILURE => '推送失败',
-            ])->dot([
+            $grid->column('status', '状态')->using(BaiduPush::STATUS_MAPS)->dot([
                 BaiduPush::STATUS_PENDING => 'info',
                 BaiduPush::STATUS_SUCCESS => 'success',
                 BaiduPush::STATUS_FAILURE => 'warning',
