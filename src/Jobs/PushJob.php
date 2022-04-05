@@ -1,8 +1,8 @@
 <?php
 /**
- * This is NOT a freeware, use is subject to license terms
+ * This is NOT a freeware, use is subject to license terms.
+ *
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
  */
 
 namespace Larva\Baidu\Push\Jobs;
@@ -80,7 +80,7 @@ class PushJob implements ShouldQueue
                 } else {
                     $this->baiduPush->setSuccess();
                 }
-            } else if ($this->baiduPush->type == BaiduPush::TYPE_DAILY) {
+            } elseif ($this->baiduPush->type == BaiduPush::TYPE_DAILY) {
                 $response = Http::acceptJson()
                     ->withBody($this->baiduPush->url, 'text/plain')
                     ->post("http://data.zz.baidu.com/urls?site={$this->site}&token={$this->token}&type=daily");

@@ -1,8 +1,8 @@
 <?php
 /**
- * This is NOT a freeware, use is subject to license terms
+ * This is NOT a freeware, use is subject to license terms.
+ *
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
  */
 
 namespace Larva\Baidu\Push\Jobs;
@@ -54,7 +54,7 @@ class UpdateJob implements ShouldQueue
     public function __construct(BaiduPush $baiduPush)
     {
         $this->baiduPush = $baiduPush;
-        if(function_exists('settings')){
+        if (function_exists('settings')) {
             $this->site = config('app.url');
             $this->token = settings('system.baidu_site_token');
         } else {
@@ -71,7 +71,6 @@ class UpdateJob implements ShouldQueue
     public function handle()
     {
         try {
-
             $response = Http::acceptJson()
                 ->withBody($this->baiduPush->url, 'text/plain')
                 ->post("http://data.zz.baidu.com/update?site={$this->site}&token={$this->token}");

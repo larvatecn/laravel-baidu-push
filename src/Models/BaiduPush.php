@@ -1,8 +1,8 @@
 <?php
 /**
- * This is NOT a freeware, use is subject to license terms
+ * This is NOT a freeware, use is subject to license terms.
+ *
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
  */
 
 namespace Larva\Baidu\Push\Models;
@@ -29,14 +29,14 @@ use Illuminate\Support\Carbon;
  */
 class BaiduPush extends Model
 {
-    const UPDATED_AT = null;
+    public const UPDATED_AT = null;
 
-    const TYPE_SITE = 'site';//普通推送
-    const TYPE_DAILY = 'daily';//快速收录
+    public const TYPE_SITE = 'site';//普通推送
+    public const TYPE_DAILY = 'daily';//快速收录
 
-    const STATUS_PENDING = 0b0;//待推送
-    const STATUS_SUCCESS = 0b1;//正常
-    const STATUS_FAILURE = 0b10;//失败
+    public const STATUS_PENDING = 0b0;//待推送
+    public const STATUS_SUCCESS = 0b1;//正常
+    public const STATUS_FAILURE = 0b10;//失败
 
     /**
      * 与模型关联的数据表。
@@ -66,7 +66,7 @@ class BaiduPush extends Model
     /**
      * 为数组 / JSON 序列化准备日期。
      *
-     * @param  \DateTimeInterface  $date
+     * @param \DateTimeInterface $date
      * @return string
      */
     protected function serializeDate(\DateTimeInterface $date)

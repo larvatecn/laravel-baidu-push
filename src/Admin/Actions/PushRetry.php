@@ -1,8 +1,8 @@
 <?php
 /**
- * This is NOT a freeware, use is subject to license terms
+ * This is NOT a freeware, use is subject to license terms.
+ *
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
  */
 
 namespace Larva\Baidu\Push\Admin\Actions;
@@ -47,7 +47,7 @@ class PushRetry extends RowAction
     {
         return [
             // 确认弹窗 title
-            "您确定吗？"
+            '您确定吗？'
         ];
     }
 
@@ -64,6 +64,6 @@ class PushRetry extends RowAction
         $baiduPush->update(['status' => BaiduPush::STATUS_PENDING, 'msg' => '']);
         PushJob::dispatch($baiduPush);
         // 返回响应结果并刷新页面
-        return $this->response()->success("已经委派到队列！")->refresh();
+        return $this->response()->success('已经委派到队列！')->refresh();
     }
 }

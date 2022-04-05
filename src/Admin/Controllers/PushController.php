@@ -1,8 +1,8 @@
 <?php
 /**
- * This is NOT a freeware, use is subject to license terms
+ * This is NOT a freeware, use is subject to license terms.
+ *
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
  */
 
 namespace Larva\Baidu\Push\Admin\Controllers;
@@ -35,18 +35,18 @@ class PushController extends AdminController
         return Grid::make(new BaiduPush(), function (Grid $grid) {
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-                $filter->equal('type','推送类型')->select([
+                $filter->equal('type', '推送类型')->select([
                     BaiduPush::TYPE_SITE => '普通推送',
                     BaiduPush::TYPE_DAILY => '快速收录'
                 ]);
-                $filter->equal('status','推送状态')->select([
+                $filter->equal('status', '推送状态')->select([
                     BaiduPush::STATUS_PENDING => '待推送',
                     BaiduPush::STATUS_SUCCESS => '推送成功',
                     BaiduPush::STATUS_FAILURE => '推送失败',
                 ]);
                 //顶部筛选
-                $filter->scope('failure', '推送失败')->where('status',BaiduPush::STATUS_FAILURE);
-                $filter->scope('pending', '待推送')->where('status',BaiduPush::STATUS_PENDING);
+                $filter->scope('failure', '推送失败')->where('status', BaiduPush::STATUS_FAILURE);
+                $filter->scope('pending', '待推送')->where('status', BaiduPush::STATUS_PENDING);
             });
             $grid->quickSearch(['id']);
             $grid->model()->orderBy('id', 'desc');
