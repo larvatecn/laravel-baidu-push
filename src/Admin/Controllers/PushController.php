@@ -34,9 +34,11 @@ class PushController extends AdminController
     {
         return Grid::make(new BaiduPush(), function (Grid $grid) {
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-                $filter->equal('type', '推送类型')->select(BaiduPush::TYPES);
-                $filter->equal('status', '推送状态')->select(BaiduPush::STATUS_MAPS);
+                $filter->expand();
+                $filter->panel();
+                $filter->equal('id')->width(2);
+                $filter->equal('type', '推送类型')->select(BaiduPush::TYPES)->width(2);
+                $filter->equal('status', '推送状态')->select(BaiduPush::STATUS_MAPS)->width(2);
                 //顶部筛选
                 $filter->scope('failure', '推送失败')->where('status', BaiduPush::STATUS_FAILURE);
                 $filter->scope('pending', '待推送')->where('status', BaiduPush::STATUS_PENDING);
