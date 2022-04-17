@@ -2,8 +2,12 @@
 
 百度自动推送
 
-[![Packagist](https://img.shields.io/packagist/l/larva/laravel-baidu-push.svg?maxAge=2592000)](https://packagist.org/packages/larva/laravel-baidu-push)
-[![Total Downloads](https://img.shields.io/packagist/dt/larva/laravel-baidu-push.svg?style=flat-square)](https://packagist.org/packages/larva/laravel-baidu-push)
+<p align="center">
+    <a href="https://packagist.org/packages/larva/laravel-baidu-push"><img src="https://poser.pugx.org/larva/laravel-baidu-push/v/stable" alt="Stable Version"></a>
+    <a href="https://packagist.org/packages/larva/laravel-baidu-push"><img src="https://poser.pugx.org/larva/laravel-baidu-push/downloads" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/larva/laravel-baidu-push"><img src="https://poser.pugx.org/larva/laravel-baidu-push/license" alt="License"></a>
+</p>
+
 
 ## Installation
 
