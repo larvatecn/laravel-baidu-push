@@ -7,8 +7,11 @@
 
 namespace Larva\Baidu\Push;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * 使用百度推送
+ * @mixin Model
  * @property \Illuminate\Database\Eloquent\Model $this
  * @author Tongle Xu <xutongle@gmail.com>
  */

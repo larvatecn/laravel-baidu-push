@@ -10,16 +10,18 @@ namespace Larva\Baidu\Push\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Larva\Baidu\Push\Jobs\DeleteJob;
+use Larva\Baidu\Push\Jobs\PushJob;
 
 /**
  * 百度推送
  * @property int $id ID
  * @property string $type 推送类型
+ * @property string $site 网站Url
  * @property string $url 推送Url
  * @property int $status 推送状态
  * @property string $msg 返回消息
  * @property int $failures 失败次数
- * @property bool $included 是否已经收录
  * @property Carbon|null $push_at 推送时间
  *
  * @property-read boolean $failure 是否失败
@@ -61,7 +63,7 @@ class BaiduPush extends Model
      * @var array
      */
     protected $fillable = [
-        'url', 'type', 'status', 'msg', 'failures', 'push_at', 'included'
+        'site', 'url', 'type', 'status', 'msg', 'failures', 'push_at',
     ];
 
     /**
@@ -70,8 +72,28 @@ class BaiduPush extends Model
      * @var array
      */
     protected $attributes = [
-        'status' => self::STATUS_PENDING
+        'status' => self::STATUS_PENDING,
+        'failures' => 0
     ];
+
+    /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted(): void
+    {
+        static::creating(function (BaiduPush $model) {
+            $arr = parse_url($model->url);
+            $model->site = $arr['scheme'] . '://' . $arr['host'];
+        });
+        static::created(function (BaiduPush $model) {
+            PushJob::dispatch($model);
+        });
+        static::deleted(function (BaiduPush $model) {
+            DeleteJob::dispatch($model);
+        });
+    }
 
     /**
      * 为数组 / JSON 序列化准备日期。
@@ -132,14 +154,5 @@ class BaiduPush extends Model
     public function setSuccess(): bool
     {
         return $this->update(['status' => static::STATUS_SUCCESS, 'msg' => 'ok', 'failures' => 0, 'push_at' => $this->freshTimestamp()]);
-    }
-
-    /**
-     * 设置为已收录
-     * @return bool
-     */
-    public function setIncluded(): bool
-    {
-        return $this->update(['included' => true]);
     }
 }

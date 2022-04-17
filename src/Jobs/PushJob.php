@@ -29,22 +29,17 @@ class PushJob implements ShouldQueue
      *
      * @var int
      */
-    public $tries = 2;
+    public int $tries = 2;
 
     /**
      * @var BaiduPush
      */
-    protected $baiduPush;
+    protected BaiduPush $baiduPush;
 
     /**
      * @var string
      */
-    protected $site;
-
-    /**
-     * @var string
-     */
-    protected $token;
+    protected string $token;
 
     /**
      * Create a new job instance.
@@ -55,10 +50,10 @@ class PushJob implements ShouldQueue
     {
         $this->baiduPush = $baiduPush;
         if (function_exists('settings')) {
-            $this->site = config('app.url');
+            $this->onQueue(settings('baidu.queue', 'default'));
             $this->token = settings('baidu.site_token');
         } else {
-            $this->site = config('services.baidu.site');
+            $this->onQueue(config('services.baidu.queue', 'default'));
             $this->token = config('services.baidu.site_token');
         }
     }
@@ -74,7 +69,7 @@ class PushJob implements ShouldQueue
             if ($this->baiduPush->type == BaiduPush::TYPE_SITE) {
                 $response = Http::acceptJson()
                     ->withBody($this->baiduPush->url, 'text/plain')
-                    ->post("http://data.zz.baidu.com/urls?site={$this->site}&token={$this->token}");
+                    ->post("http://data.zz.baidu.com/urls?site={$this->baiduPush->site}&token={$this->token}");
                 if (isset($response['error'])) {
                     $this->baiduPush->setFailure($response['error'] . ':' . $response['message']);
                 } else {
@@ -83,7 +78,7 @@ class PushJob implements ShouldQueue
             } elseif ($this->baiduPush->type == BaiduPush::TYPE_DAILY) {
                 $response = Http::acceptJson()
                     ->withBody($this->baiduPush->url, 'text/plain')
-                    ->post("http://data.zz.baidu.com/urls?site={$this->site}&token={$this->token}&type=daily");
+                    ->post("http://data.zz.baidu.com/urls?site={$this->baiduPush->site}&token={$this->token}&type=daily");
                 if (isset($response['error'])) {
                     $this->baiduPush->setFailure($response['error'] . ':' . $response['message']);
                 } else {

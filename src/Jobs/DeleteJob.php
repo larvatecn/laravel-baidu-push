@@ -35,17 +35,12 @@ class DeleteJob implements ShouldQueue
     /**
      * @var BaiduPush
      */
-    protected $baiduPush;
+    protected BaiduPush $baiduPush;
 
     /**
      * @var string
      */
-    protected $site;
-
-    /**
-     * @var string
-     */
-    protected $token;
+    protected string $token;
 
     /**
      * Create a new job instance.
@@ -56,10 +51,10 @@ class DeleteJob implements ShouldQueue
     {
         $this->baiduPush = $baiduPush;
         if (function_exists('settings')) {
-            $this->site = config('app.url');
+            $this->onQueue(settings('baidu.queue', 'default'));
             $this->token = settings('baidu.site_token');
         } else {
-            $this->site = config('services.baidu.site');
+            $this->onQueue(config('services.baidu.queue', 'default'));
             $this->token = config('services.baidu.site_token');
         }
     }
@@ -74,7 +69,7 @@ class DeleteJob implements ShouldQueue
         try {
             Http::acceptJson()
                 ->withBody($this->baiduPush->url, 'text/plain')
-                ->post("http://data.zz.baidu.com/del?site={$this->site}&token={$this->token}");
+                ->post("http://data.zz.baidu.com/del?site={$this->baiduPush->site}&token={$this->token}");
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }

@@ -8,6 +8,8 @@
 namespace Larva\Baidu\Push;
 
 use Illuminate\Support\ServiceProvider;
+use Larva\Baidu\Push\Commands\Push;
+use Larva\Baidu\Push\Commands\PushRetry;
 
 /**
  * Class BaiduPushServiceProvider
@@ -27,8 +29,6 @@ class BaiduPushServiceProvider extends ServiceProvider
             $this->commands('command.baidu.push.retry');
             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         }
-
-        \Larva\Baidu\Push\Models\BaiduPush::observe(\Larva\Baidu\Push\Observers\BaiduPushObserver::class);
     }
 
     /**
@@ -36,7 +36,7 @@ class BaiduPushServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerCommand();
     }
@@ -45,14 +45,14 @@ class BaiduPushServiceProvider extends ServiceProvider
      * Register the MNS queue command.
      * @return void
      */
-    private function registerCommand()
+    private function registerCommand(): void
     {
         $this->app->singleton('command.baidu.push', function () {
-            return new \Larva\Baidu\Push\Commands\Push();
+            return new Push();
         });
 
         $this->app->singleton('command.baidu.push.retry', function () {
-            return new \Larva\Baidu\Push\Commands\PushRetry();
+            return new PushRetry();
         });
     }
 }

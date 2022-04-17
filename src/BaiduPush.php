@@ -19,31 +19,31 @@ class BaiduPush
     /**
      * 推送 Url 给百度
      * @param string $url
-     * @return \Larva\Baidu\Push\Models\BaiduPush
+     * @return Models\BaiduPush
      */
     public static function push(string $url)
     {
-        return \Larva\Baidu\Push\Models\BaiduPush::firstOrCreate(['url' => $url, 'type' => \Larva\Baidu\Push\Models\BaiduPush::TYPE_SITE]);
+        return Models\BaiduPush::firstOrCreate(['url' => $url, 'type' => Models\BaiduPush::TYPE_SITE]);
     }
 
     /**
      * 推送 Url 给百度
      * @param string $url
-     * @return \Larva\Baidu\Push\Models\BaiduPush
+     * @return Models\BaiduPush
      */
     public static function dailyPush(string $url)
     {
-        return \Larva\Baidu\Push\Models\BaiduPush::firstOrCreate(['url' => $url, 'type' => \Larva\Baidu\Push\Models\BaiduPush::TYPE_DAILY]);
+        return Models\BaiduPush::firstOrCreate(['url' => $url, 'type' => Models\BaiduPush::TYPE_DAILY]);
     }
 
     /**
      * 推送 Url 给百度
      * @param string $url
      */
-    public static function update(string $url)
+    public static function update(string $url): void
     {
-        if (($ping = \Larva\Baidu\Push\Models\BaiduPush::query()->where('url', '=', $url)->first()) != null) {
-            $ping->update(['status' => \Larva\Baidu\Push\Models\BaiduPush::STATUS_PENDING]);
+        if (($ping = Models\BaiduPush::query()->where('url', '=', $url)->first()) != null) {
+            $ping->update(['status' => Models\BaiduPush::STATUS_PENDING]);
             UpdateJob::dispatch($ping);
         } else {
             static::push($url);
@@ -55,9 +55,9 @@ class BaiduPush
      * @param string $url
      * @throws \Exception
      */
-    public static function delete(string $url)
+    public static function delete(string $url): void
     {
-        if (($ping = \Larva\Baidu\Push\Models\BaiduPush::query()->where('url', '=', $url)->first()) != null) {
+        if (($ping = Models\BaiduPush::query()->where('url', '=', $url)->first()) != null) {
             $ping->delete();
         }
     }
